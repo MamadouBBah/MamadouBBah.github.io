@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mamadou B. Bah — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060b18;
+      --bg-2: #0c1525;
+      --bg-card: #0f1c2e;
+      --teal: #00c9a7;
+      --teal-dim: rgba(0,201,167,0.12);
+      --amber: #f5a623;
+      --amber-dim: rgba(245,166,35,0.1);
+      --text: #dde5f0;
+      --text-muted: #6b7d93;
+      --border: rgba(255,255,255,0.07);
+      --border-teal: rgba(0,201,167,0.28);
+      --border-amber: rgba(245,166,35,0.28);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6,11,24,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--teal);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 7rem 3rem 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--teal);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.15s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.2rem, 9vw, 7.5rem);
+      font-weight: 800;
+      line-height: 0.96;
+      letter-spacing: -0.025em;
+      color: #fff;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.3s forwards;
+    }
+
+    .hero-name .accent { color: var(--teal); }
+
+    .hero-title {
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-top: 1.75rem;
+      max-width: 580px;
+      line-height: 1.75;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.46s forwards;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.62s forwards;
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.38rem 0.9rem;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+
+    .tag-teal  { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
+    .tag-amber { border-color: var(--amber); color: var(--amber); background: var(--amber-dim); }
+    .tag-dim   { border-color: var(--border); color: var(--text-muted); }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.78s forwards;
+    }
+
+    .btn-primary {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.85rem 2rem;
+      background: var(--teal);
+      color: #060b18;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #05e6c0; transform: translateY(-2px); }
+
+    .btn-outline {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ── SECTIONS ── */
+    .section-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5.5rem 3rem;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.9rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 580px;
+      line-height: 1.75;
+      margin-bottom: 3.5rem;
+    }
+
+    .divider {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 1px;
+      background: var(--border);
+      position: relative;
+      z-index: 1;
+      padding: 0 3rem;
+    }
+
+    /* ── PILLARS ── */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .pillar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .pillar:hover { border-color: var(--border-teal); transform: translateY(-3px); }
+
+    .pillar-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 4px;
+      background: var(--teal-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .pillar-icon svg { width: 20px; height: 20px; stroke: var(--teal); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+    .pillar-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+
+    .pillar-text {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── PROJECT CARDS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+
+    .card-teal::after   { background: var(--teal); }
+    .card-amber::after  { background: var(--amber); }
+
+    .project-card:hover { transform: translateY(-4px); }
+    .card-teal:hover   { border-color: var(--border-teal); }
+    .card-amber:hover  { border-color: var(--border-amber); }
+    .project-card:hover::after { transform: scaleX(1); }
+
+    .card-resume {
+      background: linear-gradient(145deg, #0b1e34 0%, #0e2540 100%);
+      border-color: rgba(0,201,167,0.18);
+    }
+    .card-resume:hover { border-color: var(--border-teal); }
+
+    .proj-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.85rem;
+    }
+
+    .proj-status {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.6rem;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .s-live     { background: rgba(0,201,167,0.1);  color: var(--teal);       border: 1px solid rgba(0,201,167,0.22); }
+    .s-complete { background: rgba(245,166,35,0.1); color: var(--amber);      border: 1px solid rgba(245,166,35,0.22); }
+    .s-dev      { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); }
+
+    .proj-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.65rem;
+    }
+
+    .proj-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ptag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.04em;
+      padding: 0.18rem 0.55rem;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .proj-link {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.2s, opacity 0.2s;
+    }
+    .proj-link:hover { gap: 0.8rem; opacity: 0.85; }
+    .proj-link.teal  { color: var(--teal); }
+    .proj-link.amber { color: var(--amber); }
+
+    /* ── CONTACT STRIP ── */
+    .contact-strip {
+      position: relative;
+      z-index: 1;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 3rem;
+    }
+    .contact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .contact-text h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    .contact-text p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .footer-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      margin-top: 0.2rem;
+    }
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fi { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fi.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero, .section-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero { padding-top: 6rem; }
+      footer, .contact-strip { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .contact-inner { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <span class="nav-logo">MBB</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#resume">Résumé</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <p class="hero-eyebrow">Mamadou B. Bah &nbsp;/&nbsp; Portfolio</p>
+  <h1 class="hero-name">
+    Educator.<br>
+    Builder.<br>
+    <span class="accent">Innovator.</span>
+  </h1>
+  <p class="hero-title">I build tools and systems that live at the crossroads of human development, education, and emerging technology — driven by the conviction that the future should be accessible to everyone.</p>
+  <div class="hero-tags">
+    <span class="tag tag-teal">AI &amp; Technology</span>
+    <span class="tag tag-amber">EdTech &amp; Curriculum</span>
+    <span class="tag tag-dim">Social Impact</span>
+    <span class="tag tag-dim">Counseling</span>
+    <span class="tag tag-dim">Full-Stack Development</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary">View Projects →</a>
+    <a href="#resume" class="btn-outline">Download Résumé</a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── ABOUT ── -->
+<div class="section-wrap" id="about">
+  <p class="section-label fi">About</p>
+  <h2 class="section-title fi">Three disciplines.<br>One mission.</h2>
+  <p class="section-sub fi">With expertise spanning technology, education, and social work, I design experiences, tools, and systems that empower people — from classrooms to codebases, from counseling offices to cutting-edge AI.</p>
+  <div class="pillars">
+
+    <div class="pillar fi">
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </div>
+      <p class="pillar-title">Technology &amp; AI</p>
+      <p class="pillar-text">Full-stack development, AI system design, and agentic application architecture. I build tools that are intelligent, functional, and deeply human-centered.</p>
+    </div>
+
+    <div class="pillar fi" style="transition-delay:0.1s">
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <p class="pillar-title">Education &amp; Curriculum</p>
+      <p class="pillar-text">Curriculum design from elementary through college level. I build learning pathways that scaffold fundamentals before introducing advanced tools — including AI.</p>
+    </div>
+
+    <div class="pillar fi" style="transition-delay:0.2s">
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <p class="pillar-title">Social Work &amp; Counseling</p>
+      <p class="pillar-text">Years of frontline experience supporting youth and families. A counselor's empathy and rigor informs every product, program, and system I design.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── PROJECTS ── -->
+<div class="section-wrap" id="projects">
+  <p class="section-label fi">Projects</p>
+  <h2 class="section-title fi">Work that speaks for itself.</h2>
+  <p class="section-sub fi">Five projects representing the full breadth of my expertise — from live applications and published research to curriculum design and AI systems.</p>
+
+  <div class="projects-grid">
+
+    <!-- 01 FinEdge -->
+    <div class="project-card card-teal fi">
+      <span class="proj-number">01 — FINTECH &amp; EDTECH</span>
+      <span class="proj-status s-live">● Live</span>
+      <h3 class="proj-title">FinEdge</h3>
+      <p class="proj-desc">An interactive finance education platform with a budget calculator, real-time stock symbol lookup, a built-in financial glossary, and a live practice portfolio builder — letting users engage with the markets at zero real-world risk.</p>
+      <div class="proj-tags">
+        <span class="ptag">Finance</span>
+        <span class="ptag">Education</span>
+        <span class="ptag">Live API</span>
+        <span class="ptag">JavaScript</span>
+      </div>
+      <a href="#" class="proj-link teal">Launch App →</a>
+    </div>
+
+    <!-- 02 Research Report -->
+    <div class="project-card card-amber fi" style="transition-delay:0.08s">
+      <span class="proj-number">02 — RESEARCH &amp; DATA ANALYSIS</span>
+      <span class="proj-status s-complete">● Complete</span>
+      <h3 class="proj-title">Data Centers &amp; Climate Impact</h3>
+      <p class="proj-desc">A rigorous data analysis report examining the environmental and meteorological footprint of 21 data centers across diverse global environments — with verified sources and full citation traceability for every finding.</p>
+      <div class="proj-tags">
+        <span class="ptag">Research</span>
+        <span class="ptag">Climate</span>
+        <span class="ptag">Data Analysis</span>
+        <span class="ptag">21 Case Studies</span>
+      </div>
+      <a href="#" class="proj-link amber">Read Report →</a>
+    </div>
+
+    <!-- 03 BlackCode -->
+    <div class="project-card card-teal fi" style="transition-delay:0.16s">
+      <span class="proj-number">03 — AI &amp; EDUCATION</span>
+      <span class="proj-status s-live">● Live Demo</span>
+      <h3 class="proj-title">BlackCode</h3>
+      <p class="proj-desc">An offline-first AI programming tutor built for accessible, private coding education without internet dependency. Designed to reach students wherever they are — including low-connectivity and under-resourced environments.</p>
+      <div class="proj-tags">
+        <span class="ptag">AI Tutor</span>
+        <span class="ptag">Offline-First</span>
+        <span class="ptag">Accessibility</span>
+        <span class="ptag">EdTech</span>
+      </div>
+      <a href="#" class="proj-link teal">Explore BlackCode →</a>
+    </div>
+
+    <!-- 04 Project Navi -->
+    <div class="project-card card-amber fi" style="transition-delay:0.24s">
+      <span class="proj-number">04 — AGENTIC AI &amp; AVATAR SYSTEMS</span>
+      <span class="proj-status s-dev">◎ In Development</span>
+      <h3 class="proj-title">Project Navi</h3>
+      <p class="proj-desc">An agentic AI system with a persistent virtual identity — a Net Navi-inspired interface that gives AI a visual presence, personality, and interactive form. Built for the next generation of human-AI collaboration.</p>
+      <div class="proj-tags">
+        <span class="ptag">Agentic AI</span>
+        <span class="ptag">Avatar Systems</span>
+        <span class="ptag">Human-AI UX</span>
+        <span class="ptag">In Progress</span>
+      </div>
+      <a href="#" class="proj-link amber">View Vision →</a>
+    </div>
+
+    <!-- 05 Curriculum -->
+    <div class="project-card card-teal fi" style="transition-delay:0.32s">
+      <span class="proj-number">05 — CURRICULUM DESIGN</span>
+      <span class="proj-status s-complete">● Complete</span>
+      <h3 class="proj-title">AI Futures Curriculum</h3>
+      <p class="proj-desc">A structured learning curriculum that builds students' technical and creative fundamentals first, then progressively integrates AI tools — preparing learners at every level to adapt confidently in a rapidly evolving landscape.</p>
+      <div class="proj-tags">
+        <span class="ptag">Curriculum</span>
+        <span class="ptag">K–College</span>
+        <span class="ptag">AI Literacy</span>
+        <span class="ptag">Pedagogy</span>
+      </div>
+      <a href="#" class="proj-link teal">View Curriculum →</a>
+    </div>
+
+    <!-- Résumé Card -->
+    <div class="project-card card-teal card-resume fi" id="resume" style="transition-delay:0.4s">
+      <span class="proj-number">CV — RÉSUMÉ</span>
+      <span class="proj-status s-live" style="margin-bottom:1.5rem">● Available</span>
+      <h3 class="proj-title">Mamadou B. Bah</h3>
+      <p class="proj-desc">Technologist &nbsp;·&nbsp; Educator &nbsp;·&nbsp; Counselor<br><br>A full résumé documenting experience across education (elementary through college), technology development, AI system design, and social work — available to download directly.</p>
+      <div style="flex:1"></div>
+      <a href="#" class="proj-link teal" style="margin-top:1.5rem">Download Résumé →</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── CONTACT STRIP ── -->
+<div class="contact-strip" id="contact">
+  <div class="contact-inner">
+    <div class="contact-text fi">
+      <h3>Open to the right opportunity.</h3>
+      <p>Remote-first. Open to relocation for the right compensation. Targeting roles in EdTech, AI, curriculum design, and social impact at $90K–$135K+.</p>
+    </div>
+    <a href="mailto:mamadoubah2277@gmail.com" class="btn-primary fi">Get in Touch →</a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div>
+    <p class="footer-name">Mamadou B. Bah</p>
+    <p class="footer-sub">Technologist &nbsp;·&nbsp; Educator &nbsp;·&nbsp; Counselor</p>
+  </div>
+  <p class="footer-copy">Built to stand in place of the usual.</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

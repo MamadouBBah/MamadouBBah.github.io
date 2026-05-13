@@ -6,7 +6,7 @@ The 4 projects are as follows.
 
 1. FinAce - A beginner's finance app where users can easily make use of standard budget calculators, Create sample Stock portfolios, research stock symbols and their closing prices for 1 years time, all accompanied with a glossary of some of the more common Business and finance terms most people should understand.
    
-2.The Data Center Weather Report- A global overview of 21 different data centers in various environment types, meant to test the hypothesis of data centers causing adverse weather effects after their construction. Its a break down of both the good and the bad, as well as the novel technologies being used to offset potential environmental damages.
+2.The Data Center Weather Report- A case study of 2 different data centers in various environment types, meant to test the hypothesis of data centers causing adverse weather effects after their construction. Its a break down of both the good and the bad, as well as the novel technologies being used to offset potential environmental damages.
 
 3. BlackCode - A fully offline AI tutor capable of recording students progress, using RAG to allow students to upload documents they want to learn about, as well as equipped with a coding IDE to let students learn programming all in one. It is meant to allow AI to reach nations and countries that may not have stable internet infrastructure, and has been tailored to run on 4-8gb of RAM and 10gb of storage only. (Please contact if you would like to schedule a live demonstation of this technology)
    
